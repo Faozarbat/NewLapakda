@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul 0 — Master Spec & Overview Sistem LapakDA</title>
+<style>
+:root{--bg:#fff;--bg-soft:#f1f5f9;--text:#1e293b;--text-muted:#64748b;--border:#e2e8f0;--accent:#dc2626;--accent-soft:#fef2f2;--code-bg:#0f172a;--code-text:#e2e8f0;--success:#16a34a;--warning:#f59e0b;--danger:#dc2626;--info:#2563eb}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-soft);color:var(--text);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased}
+.layout{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.sidebar{background:#0f172a;color:#cbd5e1;padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h1{color:#fff;font-size:16px;padding:0 24px 20px;border-bottom:1px solid #1e293b;margin-bottom:16px;font-weight:700}
+.sidebar h1 small{display:block;font-size:11px;color:#64748b;font-weight:400;margin-top:4px;letter-spacing:.05em}
+.sidebar nav a{display:block;padding:8px 24px;color:#94a3b8;text-decoration:none;font-size:13px;border-left:3px solid transparent;transition:.15s}
+.sidebar nav a:hover{color:#fff;background:#1e293b;border-left-color:var(--accent)}
+.sidebar nav .section-title{padding:16px 24px 8px;font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+.main{max-width:1100px;padding:40px 48px 80px}
+h1,h2,h3,h4{color:#0f172a;font-weight:700;line-height:1.3}
+h1{font-size:32px;margin-bottom:8px}
+h2{font-size:24px;margin:40px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--accent)}
+h3{font-size:18px;margin:28px 0 12px}
+h4{font-size:15px;margin:20px 0 8px;color:#334155}
+p{margin-bottom:12px}
+ul,ol{margin:12px 0 16px 24px}
+li{margin-bottom:6px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{font-weight:700;color:#0f172a}
+code{background:#e0e7ff;color:#1e40af;padding:2px 6px;border-radius:4px;font-family:Consolas,Monaco,monospace;font-size:13px}
+pre{background:var(--code-bg);color:var(--code-text);padding:16px 20px;border-radius:8px;overflow-x:auto;margin:12px 0;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.5}
+pre code{background:transparent;color:inherit;padding:0}
+pre.ascii{background:#fff;color:#334155;border:1px solid var(--border);font-size:12.5px;line-height:1.4}
+table{width:100%;border-collapse:collapse;margin:16px 0;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:14px}
+th{background:#f1f5f9;text-align:left;padding:12px 16px;font-weight:700;color:#334155;border-bottom:1px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+td{padding:12px 16px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.badge-success{background:#dcfce7;color:#166534}
+.badge-warning{background:#fef3c7;color:#854d0e}
+.badge-danger{background:#fee2e2;color:#991b1b}
+.badge-info{background:#dbeafe;color:#1e40af}
+.badge-gray{background:#f1f5f9;color:#475569}
+.callout{padding:16px 20px;border-radius:8px;margin:16px 0;border-left:4px solid;font-size:14px}
+.callout-info{background:#eff6ff;border-color:var(--info);color:#1e40af}
+.callout-warning{background:#fffbeb;border-color:var(--warning);color:#78350f}
+.callout-danger{background:#fef2f2;border-color:var(--danger);color:#991b1b}
+.callout-success{background:#f0fdf4;border-color:var(--success);color:#166534}
+.callout strong{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;color:var(--accent)}
+.card-title::before{content:"";width:4px;height:16px;background:var(--accent);border-radius:2px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:24px 20px}.grid-2,.grid-3{grid-template-columns:1fr}}
+.toc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin:24px 0}
+.toc h3{margin-top:0;color:var(--accent)}
+.toc ol{margin-left:20px}
+.toc li{margin-bottom:4px;font-size:14px}
+section{scroll-margin-top:20px}
+.page-header{background:linear-gradient(135deg,#dc2626 0%,#991b1b 100%);color:#fff;padding:48px;border-radius:16px;margin-bottom:32px}
+.page-header h1{color:#fff;font-size:36px;margin-bottom:8px}
+.page-header p{color:#fecaca;font-size:16px;margin-bottom:4px}
+.page-header .meta{display:flex;flex-wrap:wrap;gap:24px;margin-top:24px;font-size:13px}
+.page-header .meta div{color:#fecaca}
+.page-header .meta strong{color:#fff;display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.scroll-top{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 24px rgba(220,38,38,.3);opacity:0;pointer-events:none;transition:opacity .3s;border:none;font-size:20px;z-index:100}
+.scroll-top.visible{opacity:1;pointer-events:auto}
+.scroll-top:hover{background:#b91c1c}
+</style>
+</head>
+<body>
+
+<div class="layout">
+<aside class="sidebar">
+<h1>Modul 0<small>Master Spec LapakDA</small></h1>
+<nav>
+<div class="section-title">Bagian 1: Overview</div>
+<a href="#intro">1. Info Proyek & Visi</a>
+<a href="#role">2. Role & Akses</a>
+<a href="#peta-modul">3. Peta Modul</a>
+<a href="#aturan">4. Aturan Wajib (Rules)</a>
+
+<div class="section-title">Bagian 2: Product Spec</div>
+<a href="#url">5. Struktur URL</a>
+<a href="#auth">6. Autentikasi (Nomor HP)</a>
+<a href="#checkout">7. Sistem Cart & Checkout</a>
+<a href="#pendaftaran">8. Pendaftaran Toko</a>
+<a href="#database">9. Skema Database</a>
+
+<div class="section-title">Bagian 3: Bisnis & Keamanan</div>
+<a href="#monetisasi">10. Rencana Monetisasi & Payment</a>
+<a href="#security">11. Checklist Keamanan</a>
+<a href="#pwa">12. PWA (Progressive Web App)</a>
+
+<div class="section-title">Bagian 4: Operasional</div>
+<a href="#lessons">13. Lessons Learned (Wajib Baca)</a>
+<a href="#deploy">14. Git & Deployment</a>
+</nav>
+</aside>
+
+<main class="main">
+
+<div class="page-header">
+<h1>Modul 0 — Master Spec</h1>
+<p>Peta Navigasi, Aturan Wajib, & Spesifikasi Produk Lengkap</p>
+<p>Platform Katalog UMKM (LapakDA)</p>
+<div class="meta">
+<div><strong>Status</strong>Single Source of Truth</div>
+<div><strong>Framework</strong>Laravel 11 / PHP 8.3</div>
+<div><strong>Database</strong>MySQL (Laragon)</div>
+<div><strong>Repo</strong>github.com/Faozarbat/NewLapakda</div>
+<div><strong>Target</strong>90% Mobile User</div>
+</div>
+</div>
+
+<div class="callout callout-danger">
+<strong>Dokumen Tunggal (Master Spec)</strong>
+Dokumen ini adalah gabungan dari "Overview Sistem" dan "Product Spec 1.6.0". Programmer atau AI baru <strong>TIDAK PERLU</strong> membuka file lain untuk memahami arsitektur, alur bisnis, dan aturan ketat proyek ini. Semua ada di sini.
+</div>
+
+<div class="toc">
+<h3>Daftar Isi</h3>
+<ol>
+<li><a href="#intro">Info Proyek & Visi</a></li>
+<li><a href="#role">Role & Akses</a></li>
+<li><a href="#peta-modul">Peta Modul</a></li>
+<li><a href="#aturan">Aturan Wajib (Rules)</a></li>
+<li><a href="#url">Struktur URL</a></li>
+<li><a href="#auth">Autentikasi (Nomor HP)</a></li>
+<li><a href="#checkout">Sistem Cart & Checkout</a></li>
+<li><a href="#pendaftaran">Pendaftaran Toko</a></li>
+<li><a href="#database">Skema Database</a></li>
+<li><a href="#monetisasi">Rencana Monetisasi & Payment</a></li>
+<li><a href="#security">Checklist Keamanan</a></li>
+<li><a href="#pwa">PWA (Progressive Web App)</a></li>
+<li><a href="#lessons">Lessons Learned (Wajib Baca)</a></li>
+<li><a href="#deploy">Git & Deployment</a></li>
+</ol>
+</div>
+
+<!-- ==================== BAGIAN 1: OVERVIEW ==================== -->
+
+<section id="intro">
+<h2>1. Info Proyek & Visi</h2>
+
+<p><strong>LapakDA</strong> adalah platform "Web Mall" UMKM berbasis mobile-first. UMKM (Resto & Toko) bisa mendaftar gratis, mendapatkan halaman katalog online sendiri, dan membagikan link-nya via WhatsApp. Buyer bisa langsung memesan dan checkout diarahkan ke WA pemilik.</p>
+
+<table>
+<thead><tr><th>Aspek</th><th>Detail</th></tr></thead>
+<tbody>
+<tr><td>Framework</td><td>Laravel 11 / PHP 8.3</td></tr>
+<tr><td>Frontend</td><td>Blade + <strong>Tailwind CSS (Vite)</strong> + Alpine.js</td></tr>
+<tr><td>Map & Geolocation</td><td>Leaflet + OpenStreetMap (Gratis)</td></tr>
+<tr><td>Image Processing</td><td>Intervention Image (Auto WebP)</td></tr>
+<tr><td>Target Pengguna</td><td>90% Mobile (PWA First)</td></tr>
+<tr><td>Environment</td><td>Lokal: <code>lapakda.test</code> | Prod: <code>lapakda.com</code></td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="role">
+<h2>2. Role & Akses</h2>
+
+<div class="callout callout-info">
+<strong>Konsep Akun (Satu Pintu)</strong>
+Tidak ada tabel/role terpisah untuk "Owner" dan "Buyer". Semua masuk ke tabel <code>users</code>. Seseorang otomatis menjadi Owner jika ia memiliki minimal 1 baris data di tabel <code>stores</code>.
+</div>
+
+<table>
+<thead><tr><th>Role</th><th>Akses Utama</th><th>Keterangan</th></tr></thead>
+<tbody>
+<tr><td><code>Guest / Buyer</code></td><td>Katalog, Cart, Checkout</td><td>Bisa checkout tanpa login (opsional isi nama & WA).</td></tr>
+<tr><td><code>User</code></td><td>Dashboard</td><td>Login via Nomor HP. Bisa bertindak sebagai pembeli, atau mendaftarkan tokonya sendiri.</td></tr>
+<tr><td><code>Owner</code></td><td>Kelola Toko</td><td>Bisa CRUD Produk, melihat Order, edit profil toko.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="peta-modul">
+<h2>3. Peta Modul</h2>
+
+<table>
+<thead><tr><th>#</th><th>Modul</th><th>Cakupan</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>Master Spec</td><td>Dokumen ini</td><td><span class="badge badge-success">Selesai</span></td></tr>
+<tr><td>1</td><td>Fondasi & DB</td><td>Migrasi, Model, Seeder (Kecamatan & Store)</td><td><span class="badge badge-warning">Proses</span></td></tr>
+<tr><td>2</td><td>Public & Buyer</td><td>Homepage Kategori, Katalog, Cart, Checkout, Map.</td><td><span class="badge badge-gray">Belum</span></td></tr>
+<tr><td>3</td><td>Dashboard Owner</td><td>CRUD Produk (WebP), List Order, Edit Profil.</td><td><span class="badge badge-gray">Belum</span></td></tr>
+<tr><td>4</td><td>Auth & PWA</td><td>Login Nomor HP, Manifest, Service Worker.</td><td><span class="badge badge-gray">Belum</span></td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="aturan">
+<h2>4. Aturan Wajib (Strict)</h2>
+
+<div class="callout callout-danger">
+<strong>Aturan UI/UX (Dilarang Keras Melanggar)</strong>
+<ol style="margin-top:8px">
+<li><strong>NO EMOJI:</strong> Wajib gunakan SVG (Heroicons/Lucide). Dilarang pakai emoji di UI.</li>
+<li><strong>NO NATIVE ALERT:</strong> Dilarang pakai <code>alert()</code>, <code>confirm()</code>, <code>prompt()</code>. Wajib gunakan Modal Alpine.js / Toast.</li>
+<li><strong>Mobile-First:</strong> Desain dimulai dari layar 375px. Tombol minimal 44px (<code>min-h-[44px]</code>).</li>
+<li><strong>Tailwind CSS:</strong> Semua styling pakai kelas Tailwind. Dilarang tag <code>&lt;style&gt;</code> manual (kecuali font/animasi).</li>
+<li><strong>Panggil Vite:</strong> Setiap halaman yang butuh JS wajib ada <code>@vite(['resources/js/app.js'])</code>.</li>
+</ol>
+</div>
+
+<div class="callout callout-danger">
+<strong>Aturan Backend & Keamanan</strong>
+<ol style="margin-top:8px">
+<li><strong>Harga Snapshot:</strong> Saat checkout, harga disalin ke <code>order_items.price</code>. Jangan referensi live ke <code>products</code>.</li>
+<li><strong>Authorization Server-Side:</strong> Cek kepemilikan (Policy/If-else) sebelum update/delete.</li>
+<li><strong>Private Storage:</strong> Foto bukti transfer disimpan di <code>storage/app/private/</code>.</li>
+<li><strong>Image Processing:</strong> Wajib Resize & Convert WebP menggunakan Intervention Image.</li>
+<li><strong>HTTPS:</strong> Wajib HTTPS untuk production (prasyarat Geolocation API).</li>
+</ol>
+</div>
+</section>
+
+<!-- ==================== BAGIAN 2: PRODUCT SPEC ==================== -->
+
+<section id="url">
+<h2>5. Struktur URL</h2>
+<p>Format URL Katalog Toko adalah:</p>
+<pre><code>lapakda.com/{kecamatan}/{nama-toko}</code></pre>
+<ul>
+<li>Contoh: <code>lapakda.com/nongsa/warung-bahagia</code></li>
+<li><strong>Slug toko unik per kecamatan</strong>, bukan unik global. (Toko A di Nongsa boleh punya nama sama dengan Toko B di Batam Kota).</li>
+<li>Database constraint: <code>unique(['kecamatan_id', 'slug'])</code>.</li>
+</ul>
+</section>
+
+<section id="auth">
+<h2>6. Autentikasi (Nomor HP)</h2>
+<p>Sesuai keputusan produk, identitas utama login adalah <strong>Nomor HP (WhatsApp)</strong>.</p>
+<ul>
+<li>Kolom <code>email</code> bersifat opsional (boleh kosong).</li>
+<li>Nomor HP dinormalisasi ke format <code>62xxx</code> (misal: <code>08xx</code> jadi <code>628xx</code>).</li>
+<li>Gunakan helper <code>App\Support\PhoneNumber::normalize()</code>.</li>
+<li>Proses verifikasi OTP WA ditunda ke fase selanjutnya.</li>
+</ul>
+</section>
+
+<section id="checkout">
+<h2>7. Sistem Cart & Checkout (Paling Kompleks)</h2>
+
+<h3>7.1 Sistem Cart</h3>
+<ul>
+<li>Disimpan di <strong>Session</strong> Laravel (bukan database).</li>
+<li>Setiap toko punya keranjang terpisah (tidak bercampur).</li>
+<li>Wajib menyertakan ID Produk di array session: <code>"id" => $product->id</code>.</li>
+</ul>
+
+<h3>7.2 Opsi Fulfillment</h3>
+<p>Saat checkout, buyer memilih salah satu:</p>
+<div class="grid-2">
+<div class="card">
+<div class="card-title">Self Pickup (Ambil Sendiri)</div>
+<p>Ada dua opsi konsumsi per item:</p>
+<ul>
+<li><strong>Dine-in (Makan di Tempat)</strong>: Muncul input Nomor Meja jika toko mengaktifkannya.</li>
+<li><strong>Takeaway (Bungkus)</strong>.</li>
+</ul>
+<p><em>Catatan: Satu baris produk bisa di-split qty-nya (misal 2 porsi, 1 dine-in, 1 bungkus).</em></p>
+</div>
+<div class="card">
+<div class="card-title">Delivery (Di Antar)</div>
+<p>Resto mengantar sendiri via ojek (diatur di WA).</p>
+<ul>
+<li>Semua item otomatis dianggap <em>takeaway</em>.</li>
+<li>Buyer wajib mengisi titik lokasi (Latitude/Longitude) via <strong>Geolocation API</strong> atau Pin Map (Leaflet).</li>
+</ul>
+</div>
+</div>
+
+<h3>7.3 Nomor Meja</h3>
+<p>Hanya muncul jika <code>store.has_table_number = true</code> DAN buyer memilih Dine-in. Disimpan sebagai teks bebas (contoh: "A1", "VIP-2").</p>
+
+<h3>7.4 Redirect ke WhatsApp</h3>
+<p>Sistem menyimpan Order ke DB, lalu membuat pesan terformat menggunakan <code>urlencode()</code> dan mengarahkan (redirect) ke <code>wa.me/{nomor_resto}</code>.</p>
+</section>
+
+<section id="pendaftaran">
+<h2>8. Pendaftaran Toko</h2>
+<p>Form wajib saat mendaftar Resto:</p>
+<ul>
+<li>Nama Toko, Kategori (Resto), Kecamatan.</li>
+<li>Nomor WhatsApp (Dinormalisasi).</li>
+<li>Alamat Lengkap.</li>
+<li><strong>Titik Lokasi (Lat/Long):</strong> Wajib drop pin di peta (Leaflet).</li>
+<li><strong>Jam Operasional:</strong> Format JSON (Hari, Jam Buka, Jam Tutup, Status Libur).</li>
+<li><strong>Setting Nomor Meja:</strong> Ya / Tidak (<code>has_table_number</code>).</li>
+</ul>
+</section>
+
+<section id="database">
+<h2>9. Skema Database</h2>
+
+<h3>9.1 Tabel `kecamatans`</h3>
+<table>
+<thead><tr><th>Kolom</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+<tbody>
+<tr><td>id</td><td>PK</td><td></td></tr>
+<tr><td>nama</td><td>string</td><td>Contoh: Nongsa</td></tr>
+<tr><td>slug</td><td>string, unique</td><td>Contoh: nongsa (untuk URL)</td></tr>
+</tbody>
+</table>
+
+<h3>9.2 Tabel `stores`</h3>
+<table>
+<thead><tr><th>Kolom</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+<tbody>
+<tr><td>user_id</td><td>FK</td><td>Owner (Pemilik)</td></tr>
+<tr><td>kecamatan_id</td><td>FK</td><td>Wilayah</td></tr>
+<tr><td>nama, slug</td><td>string</td><td>Unique composite per kecamatan</td></tr>
+<tr><td>kategori</td><td>enum</td><td>resto / store</td></tr>
+<tr><td>nomor_wa</td><td>string</td><td>Format 62xxx</td></tr>
+<tr><td>jam_operasional</td><td>json</td><td>Jadwal buka/tutup/libur</td></tr>
+<tr><td>latitude, longitude</td><td>decimal(10,7)</td><td>Titik Peta</td></tr>
+<tr><td>has_table_number</td><td>boolean</td><td>Minta input meja?</td></tr>
+<tr><td>status_aktif</td><td>boolean</td><td>Toko aktif/suspend</td></tr>
+</tbody>
+</table>
+
+<h3>9.3 Tabel `orders`</h3>
+<table>
+<thead><tr><th>Kolom</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+<tbody>
+<tr><td>store_id</td><td>FK</td><td>Toko tujuan</td></tr>
+<tr><td>nomor_order</td><td>string</td><td>Format: LPK-0001</td></tr>
+<tr><td>fulfillment_type</td><td>enum</td><td>self_pickup / delivery</td></tr>
+<tr><td>delivery_latitude/longitude/note</td><td>nullable</td><td>Jika delivery</td></tr>
+<tr><td>status</td><td>enum</td><td>menunggu_konfirmasi / dikonfirmasi / selesai / dibatalkan</td></tr>
+<tr><td>payment_status</td><td>enum</td><td>unpaid (Disiapkan untuk Midtrans)</td></tr>
+<tr><td>platform_fee</td><td>integer</td><td>Disiapkan untuk Fee Rp500</td></tr>
+</tbody>
+</table>
+
+<h3>9.4 Tabel `order_items`</h3>
+<table>
+<thead><tr><th>Kolom</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+<tbody>
+<tr><td>product_id</td><td>FK (nullable)</td><td>NullOnDelete</td></tr>
+<tr><td>nama_produk_saat_beli</td><td>string</td><td><strong>Snapshot</strong></td></tr>
+<tr><td>harga_saat_beli</td><td>integer</td><td><strong>Snapshot</strong></td></tr>
+<tr><td>consumption_type</td><td>enum</td><td>dine_in / takeaway</td></tr>
+<tr><td>table_number</td><td>string</td><td>Nullable</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ==================== BAGIAN 3: BISNIS & KEAMANAN ==================== -->
+
+<section id="monetisasi">
+<h2>10. Rencana Monetisasi & Payment</h2>
+<ul>
+<li><strong>Saat ini:</strong> Gratis total. Belum ada fee.</li>
+<li><strong>Rencana ke depan:</strong> Fee Rp500 per checkout.</li>
+<li><strong>Kendala:</strong> Pembayaran masih manual (tunai di WA), jadi fee belum bisa ditarik.</li>
+<li><strong>Solusi (Fase Lanjut):</strong> Menggunakan <strong>Midtrans</strong> untuk pembayaran online. Fee Rp500 dipotong otomatis via fitur <em>split settlement</em> (Iris API).</li>
+<li><strong>Persiapan DB:</strong> Kolom <code>payment_status</code>, <code>payment_method</code>, dan <code>platform_fee</code> di tabel <code>orders</code> sudah disiapkan.</li>
+</ul>
+</section>
+
+<section id="security">
+<h2>11. Checklist Keamanan</h2>
+
+<h3>11.1 Upload Gambar (Wajib)</h3>
+<ul>
+<li>Batasi ukuran (max 2MB).</li>
+<li>Resize otomatis & Convert ke <strong>WebP</strong> (Intervention Image).</li>
+<li>Validasi MIME Type (jangan percaya ekstensi).</li>
+<li>Rename file ke UUID (jangan pakai nama asli user).</li>
+<li>Hapus file lama saat ganti/hapus produk.</li>
+</ul>
+
+<h3>11.2 Aplikasi & Data</h3>
+<ul>
+<li><strong>Authorization Per-Tenant:</strong> Toko A dilarang edit produk Toko B (Gunakan Laravel Policy).</li>
+<li><strong>Validasi Harga:</strong> Hitung ulang harga di backend saat checkout (jangan percaya frontend).</li>
+<li><strong>.env:</strong> Jangan commit ke Git.</li>
+<li><strong>APP_DEBUG:</strong> Wajib <code>false</code> di production.</li>
+<li><strong>HTTPS:</strong> Wajib di production (Geolocation API butuh ini).</li>
+<li><strong>Rate Limiting:</strong> Wajib pasang di endpoint checkout & registrasi.</li>
+<li><strong>Idempotency:</strong> Cegah double-submit checkout (token unik).</li>
+</ul>
+
+<h3>11.3 Logika Bisnis</h3>
+<ul>
+<li>Cek jam operasional & status toko saat checkout.</li>
+<li>Cek status ketersediaan produk ulang (saat checkout, bukan hanya saat masuk cart).</li>
+<li>Toko nonaktif harus tampil halaman "Toko Tutup", bukan 404 polos.</li>
+<li>Order pakai SoftDeletes (jangan dihapus permanen).</li>
+</ul>
+
+<h3>11.4 Privasi Data (UU PDP)</h3>
+<ul>
+<li>Wajib punya halaman <strong>Kebijakan Privasi</strong>.</li>
+<li>Jangan simpan histori lokasi user lebih lama dari yang diperlukan.</li>
+<li>Sediakan opsi input lokasi manual (drop pin) jika user menolak izin GPS.</li>
+</ul>
+</section>
+
+<section id="pwa">
+<h2>12. PWA (Progressive Web App)</h2>
+<ul>
+<li>Wajib bisa di-install ke homescreen HP.</li>
+<li>Gunakan <code>manifest.json</code> dan <code>service worker</code>.</li>
+<li><strong>Strategi Cache:</strong> Halaman = Network-first (jangan sampai data basi). Asset statis = Cache-first.</li>
+</ul>
+</section>
+
+<!-- ==================== BAGIAN 4: OPERASIONAL ==================== -->
+
+<section id="lessons">
+<h2>13. Lessons Learned (Kesalahan Fatal)</h2>
+
+<div class="callout callout-danger">
+<strong>Bacaan Wajib untuk Programmer / AI Baru</strong>
+Jangan pernah mengulangi kesalahan ini:
+<ol style="margin-top:8px">
+<li><strong>Lupa Fitur Spec:</strong> Membangun aplikasi tanpa membaca <code>PRODUCT_SPEC</code> lengkap (misal lupa buat fitur Geolocation).</li>
+<li><strong>Pakai Alert Browser:</strong> Menggunakan <code>confirm()</code> atau <code>alert()</code> bawaan browser.</li>
+<li><strong>Lupa @vite:</strong> Memakai Alpine.js tapi lupa memanggil <code>@vite</code> di <code>&lt;head&gt;</code>.</li>
+<li><strong>Sembunyikan Elemen Mobile:</strong> Menghilangkan panel branding di mobile tanpa alternatif desain.</li>
+<li><strong>Relasi Model Hilang:</strong> Memanggil <code>hasMany</code> di Controller tanpa mendefinisikannya di Model.</li>
+<li><strong>Asal Bikin File:</strong> Menyuruh copy-paste kode Controller padahal file-nya belum di-generate via artisan.</li>
+</ol>
+</div>
+</section>
+
+<section id="deploy">
+<h2>14. Git & Deployment</h2>
+
+<h3>14.1 Workflow</h3>
+<pre class="ascii">LAPTOP (Laragon)
+  ↓ Test di http://lapakda.test
+  ↓ git add .
+  ↓ git commit -m "..."
+  ↓ git push origin main
+GITHUB (Faozarbat/NewLapakda)</pre>
+
+<h3>14.2 Aturan Git (DILARANG)</h3>
+<div class="callout callout-danger">
+<ol style="margin-top:8px">
+<li>Edit file langsung di server VPS.</li>
+<li>Commit file <code>.env</code>, <code>/vendor</code>, <code>/node_modules</code>, <code>/public/build</code>.</li>
+<li>Edit migration lama (Wajib buat migration baru).</li>
+<li><code>migrate:fresh</code> di VPS production.</li>
+</ol>
+</div>
+</section>
+
+<section>
+<hr style="margin:48px 0;border:none;border-top:1px solid var(--border)">
+<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:20px 0">
+<strong style="color:#0f172a;font-size:15px">Modul 0 — Master Spec & Overview (LapakDA)</strong><br>
+18 Oktober 2026<br>
+Platform Katalog UMKM
+</div>
+</section>
+
+</main>
+</div>
+
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const btn = document.querySelector('.scroll-top');
+window.addEventListener('scroll', () => {
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 100;
+    if (window.scrollY >= top) current = section.id;
+  });
+  navLinks.forEach(link => {
+    link.style.borderLeftColor = '';
+    link.style.color = '';
+    if (link.getAttribute('href') === '#' + current) {
+      link.style.borderLeftColor = '#dc2626';
+      link.style.color = '#fff';
+    }
+  });
+});
+
+document.querySelectorAll('.sidebar nav a, .toc a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      window.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
